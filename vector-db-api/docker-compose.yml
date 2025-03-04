@@ -1,0 +1,17 @@
+services:
+  vector-db-api:
+    image: neilbao/vector-db-api:latest
+    container_name: vector-db-api
+    volumes:
+      - ./chromadb_data:/app/chromadb_data
+    ports:
+      - "8001:8001"
+    environment:
+      - TZ=Asia/Shanghai
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/docs"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
